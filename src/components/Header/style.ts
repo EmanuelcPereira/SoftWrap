@@ -5,10 +5,10 @@ export const Container = styled.header`
 `;
 
 export const Content = styled.div`
-  max-width: 1120px;
-  margin: 0 3rem;
+  max-width: 1920px;
+  margin: 0 auto;
 
-  padding: 1rem 1rem 2rem;
+  padding: 2rem 4rem 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
