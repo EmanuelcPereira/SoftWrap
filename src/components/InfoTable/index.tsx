@@ -13,6 +13,7 @@ export function InfoTable() {
             <th>CPF</th>
             <th>Cidade</th>
             <th>Estado</th>
+            <th>Alterar</th>
           </tr>
         </thead>
 
@@ -24,12 +25,14 @@ export function InfoTable() {
             <td>000.000.000-00</td>
             <td>Brasília</td>
             <td>DF</td>
-            <button type="button" className="icon">
-              <FiEdit3 />
-            </button>
-            <button type="button" className="icon">
-              <FiTrash />
-            </button>
+            <td>
+              <button type="button" className="icon">
+                <FiEdit3 />
+              </button>
+              <button type="button" className="icon">
+                <FiTrash />
+              </button>
+            </td>
           </tr>
 
           <tr>
@@ -39,12 +42,14 @@ export function InfoTable() {
             <td>000.000.000-00</td>
             <td>Brasília</td>
             <td>DF</td>
-            <button type="button" className="icon">
-              <FiEdit3 />
-            </button>
-            <button type="button" className="icon">
-              <FiTrash />
-            </button>
+            <td>
+              <button type="button" className="icon">
+                <FiEdit3 />
+              </button>
+              <button type="button" className="icon">
+                <FiTrash />
+              </button>
+            </td>
           </tr>
 
           <tr>
@@ -54,12 +59,14 @@ export function InfoTable() {
             <td>000.000.000-00</td>
             <td>Brasília</td>
             <td>DF</td>
-            <button type="button" className="icon">
-              <FiEdit3 />
-            </button>
-            <button type="button" className="icon">
-              <FiTrash />
-            </button>
+            <td>
+              <button type="button" className="icon">
+                <FiEdit3 />
+              </button>
+              <button type="button" className="icon">
+                <FiTrash />
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

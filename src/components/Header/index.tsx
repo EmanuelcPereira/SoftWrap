@@ -2,15 +2,15 @@ import logoImg from '../../assets/logo.png';
 import { Container, Content } from './style';
 
 interface HeaderProps {
-  onOpenNewTransactionModal: () => void;
+  onOpenTransactionModal: () => void;
 }
 
-export function Header({ onOpenNewTransactionModal }: HeaderProps) {
+export function Header({ onOpenTransactionModal }: HeaderProps) {
   return (
     <Container>
       <Content>
         <img src={logoImg} alt="SoftWrap" />
-        <button type="button" onClick={onOpenNewTransactionModal}>
+        <button type="button" onClick={onOpenTransactionModal}>
           Novo Cadastro
         </button>
       </Content>

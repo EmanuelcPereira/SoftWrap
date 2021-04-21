@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: var(--background);
-  margin-top: 4rem;
+  width: 100%;
+  height: 100vw;
+  /* background: var(--background); */
+  background: #cfcfd3;
 
   table {
     width: 100%;
     border-spacing: 0 0.5rem;
+    padding: 2rem 4rem;
 
     th {
       color: var(--text-title);
@@ -18,7 +21,7 @@ export const Container = styled.div`
 
     td {
       text-align: center;
-      padding: 1rem 1rem;
+      padding: 0.5rem 0.5rem;
       border: 0;
       background: var(--shape);
       color: var(--text-body);
@@ -27,18 +30,18 @@ export const Container = styled.div`
       &::first-child {
         color: var(--text-title);
       }
-    }
 
-    button {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      border: none;
-      transition: 0.1s;
+      button {
+        background: #fff;
+        padding: 0 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        transition: 0.1s;
 
-      svg {
-        font-size: 1rem;
-        color: var(--text-body);
+        svg {
+          font-size: 1rem;
+          color: var(--text-body);
+        }
       }
     }
   }
