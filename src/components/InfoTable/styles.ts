@@ -11,14 +11,14 @@ export const Container = styled.div`
     th {
       color: var(--text-title);
       font-weight: 400;
-      padding: 1rem 5rem;
+      padding: 1rem 4rem;
       text-align: center;
       line-height: 1rem;
     }
 
     td {
       text-align: center;
-      padding: 1rem 5rem;
+      padding: 1rem 1rem;
       border: 0;
       background: var(--shape);
       color: var(--text-body);
@@ -26,6 +26,19 @@ export const Container = styled.div`
 
       &::first-child {
         color: var(--text-title);
+      }
+    }
+
+    button {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      border: none;
+      transition: 0.1s;
+
+      svg {
+        font-size: 1rem;
+        color: var(--text-body);
       }
     }
   }
