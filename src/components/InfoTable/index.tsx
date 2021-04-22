@@ -1,7 +1,26 @@
+import { useEffect, useState } from 'react';
 import { FiEdit3, FiTrash } from 'react-icons/fi';
+import database from '../../services/firebase';
 import { Container } from './styles';
 
+interface RegisterProps {
+  name: string;
+  age: number;
+  city: string;
+  cpfId: string;
+  maritalStatus: string;
+  state: string;
+}
+
 export function InfoTable() {
+  const [dadosCadastro, setDadosCadastro] = useState<RegisterProps[]>([]);
+
+  useEffect(() => {
+    database.child('registers').on('value', snapshot => {
+      setDadosCadastro(Object.values(snapshot.val()));
+    });
+  }, []);
+
   return (
     <Container>
       <table>
@@ -18,56 +37,24 @@ export function InfoTable() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Fulano da Silva</td>
-            <td>19 anos</td>
-            <td>Solteiro</td>
-            <td>000.000.000-00</td>
-            <td>Brasília</td>
-            <td>DF</td>
-            <td>
-              <button type="button" className="icon">
-                <FiEdit3 />
-              </button>
-              <button type="button" className="icon">
-                <FiTrash />
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Fulano da Silva</td>
-            <td>19 anos</td>
-            <td>Solteiro</td>
-            <td>000.000.000-00</td>
-            <td>Brasília</td>
-            <td>DF</td>
-            <td>
-              <button type="button" className="icon">
-                <FiEdit3 />
-              </button>
-              <button type="button" className="icon">
-                <FiTrash />
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Fulano da Silva</td>
-            <td>19 anos</td>
-            <td>Solteiro</td>
-            <td>000.000.000-00</td>
-            <td>Brasília</td>
-            <td>DF</td>
-            <td>
-              <button type="button" className="icon">
-                <FiEdit3 />
-              </button>
-              <button type="button" className="icon">
-                <FiTrash />
-              </button>
-            </td>
-          </tr>
+          {dadosCadastro.map(register => (
+            <tr key={register.name}>
+              <td>{register.name}</td>
+              <td>{register.age}</td>
+              <td>{register.maritalStatus}</td>
+              <td>{register.cpfId}</td>
+              <td>{register.city}</td>
+              <td>{register.state}</td>
+              <td>
+                <button type="button" className="icon">
+                  <FiEdit3 />
+                </button>
+                <button type="button" className="icon">
+                  <FiTrash />
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Container>
