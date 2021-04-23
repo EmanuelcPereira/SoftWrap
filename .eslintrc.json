@@ -24,6 +24,7 @@
     "prettier"
   ],
   "rules": {
+    "react/jsx-props-no-spreading": "off",
     "import/no-duplicates": "off",
     "arrow-parens": "off",
     "import/no-extraneous-dependencies": [

@@ -1,31 +1,60 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { Header } from './components/Header';
-import { Dashboard } from './components/Dashboard';
 import { GlobalStyle } from './styles/global';
-import { NewTransactionModal } from './components/NewTransactionModal';
+import { NewRegisterModal } from './components/NewRegisterModal';
+import { InfoTable } from './components/InfoTable';
 import firebaseDB from './services/firebase';
+import { EditRegisterModal } from './components/EditRegisterModal';
 
 Modal.setAppElement('#root');
 
-export function App() {
-  const [isTransationModalOpen, setIsTransationModalOpen] = useState(false);
+interface RegisterProps {
+  id: string;
+  name: string;
+  age: number;
+  city: string;
+  cpfId: string;
+  maritalStatus: string;
+  state: string;
+}
 
-  function handleOpenTransactionModal() {
-    setIsTransationModalOpen(true);
+export function App() {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isEditRegisterModalOpen, setIsEditRegisterModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<RegisterProps>({} as RegisterProps);
+
+  function handleOpenRegisterModal() {
+    setIsRegisterModalOpen(true);
   }
 
-  function handleCloseTransactionModal() {
-    setIsTransationModalOpen(false);
+  function handleCloseRegisterModal() {
+    setIsRegisterModalOpen(false);
+  }
+
+  function handleOpenEditRegisterModal(register: RegisterProps) {
+    setIsEditRegisterModalOpen(true);
+    setSelectedRow(register);
+  }
+
+  function handleCloseEditRegisterModal() {
+    setIsEditRegisterModalOpen(false);
   }
   return (
     <>
-      <Header onOpenTransactionModal={handleOpenTransactionModal} />
-      <Dashboard />
+      <Header onOpenRegisterModal={handleOpenRegisterModal} />
 
-      <NewTransactionModal
-        isOpen={isTransationModalOpen}
-        onRequestClose={handleCloseTransactionModal}
+      <InfoTable onhandleOpenEditRegisterModal={handleOpenEditRegisterModal} />
+
+      <NewRegisterModal
+        isOpen={isRegisterModalOpen}
+        onRequestClose={handleCloseRegisterModal}
+      />
+
+      <EditRegisterModal
+        isOpen={isEditRegisterModalOpen}
+        onSelectedRow={selectedRow}
+        onRequestClose={handleCloseEditRegisterModal}
       />
 
       <GlobalStyle />

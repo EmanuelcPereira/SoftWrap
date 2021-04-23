@@ -1,28 +1,31 @@
 import Modal from 'react-modal';
 import { FiX } from 'react-icons/fi';
 import { FormEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Container } from './styles';
 import database from '../../services/firebase';
 
-interface NewTransactionProps {
+interface NewRegisterModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 }
-export function NewTransactionModal({
+export function NewRegisterModal({
   isOpen,
   onRequestClose,
-}: NewTransactionProps) {
+}: NewRegisterModalProps) {
   const [name, setName] = useState('');
   const [age, setAge] = useState(0);
   const [cpfId, setCpfId] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
+  const id = uuidv4();
 
   async function handleCreateNewRegister(event: FormEvent) {
     event.preventDefault();
 
-    database.child('registers').push({
+    database.ref('registers').child(id).set({
+      id,
       name,
       age,
       cpfId,

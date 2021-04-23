@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 import database from '../../services/firebase';
 import { Container } from './styles';
+import { EditRegisterModal } from '../EditRegisterModal/index';
 
 interface RegisterProps {
+  id: string;
   name: string;
   age: number;
   city: string;
@@ -12,51 +14,61 @@ interface RegisterProps {
   state: string;
 }
 
-export function InfoTable() {
+interface InfoTableProps {
+  onhandleOpenEditRegisterModal: (register: RegisterProps) => void;
+}
+
+export function InfoTable({ onhandleOpenEditRegisterModal }: InfoTableProps) {
   const [dadosCadastro, setDadosCadastro] = useState<RegisterProps[]>([]);
 
   useEffect(() => {
-    database.child('registers').on('value', snapshot => {
-      setDadosCadastro(Object.values(snapshot.val()));
+    database.ref('registers').on('value', snapshot => {
+      if (snapshot.val() !== null) { setDadosCadastro(Object.values(snapshot.val())); }
     });
   }, []);
 
-  return (
-    <Container>
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Idade</th>
-            <th>Estado Civil</th>
-            <th>CPF</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-            <th>Alterar</th>
-          </tr>
-        </thead>
+  async function handleDeleteRegister(register: RegisterProps) {
+    database.ref('registers').child(register.id).set(null);
+  }
 
-        <tbody>
-          {dadosCadastro.map(register => (
-            <tr key={register.name}>
-              <td>{register.name}</td>
-              <td>{register.age}</td>
-              <td>{register.maritalStatus}</td>
-              <td>{register.cpfId}</td>
-              <td>{register.city}</td>
-              <td>{register.state}</td>
-              <td>
-                <button type="button" className="icon">
-                  <FiEdit3 />
-                </button>
-                <button type="button" className="icon">
-                  <FiTrash />
-                </button>
-              </td>
+  return (
+    <>
+      <Container>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Idade</th>
+              <th>Estado Civil</th>
+              <th>CPF</th>
+              <th>Cidade</th>
+              <th>Estado</th>
+              <th>Alterar</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </Container>
+          </thead>
+
+          <tbody>
+            {dadosCadastro.map(register => (
+              <tr key={register.id}>
+                <td>{register.name}</td>
+                <td>{register.age}</td>
+                <td>{register.maritalStatus}</td>
+                <td>{register.cpfId}</td>
+                <td>{register.city}</td>
+                <td>{register.state}</td>
+                <td>
+                  <button type="button" className="icon" onClick={() => onhandleOpenEditRegisterModal(register)}>
+                    <FiEdit3 />
+                  </button>
+                  <button type="button" className="icon" onClick={() => handleDeleteRegister(register)}>
+                    <FiTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Container>
+    </>
   );
 }
