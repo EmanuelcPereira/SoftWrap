@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 import database from '../../services/firebase';
 import { Container } from './styles';
-import { EditRegisterModal } from '../EditRegisterModal/index';
 
 interface RegisterProps {
   id: string;
