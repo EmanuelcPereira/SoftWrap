@@ -1,109 +1,69 @@
-import Modal from 'react-modal';
+import React, { useRef, useCallback } from 'react';
+import { FormHandles } from '@unform/core';
 import { FiX } from 'react-icons/fi';
-import { FormEvent, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { Container } from './styles';
-import database from '../../services/firebase';
+import { Form } from './styles';
+import AppModal from '../Modal';
+import Input from '../Input';
+
+interface NewRegisterProps {
+  id: string;
+  name: string;
+  age: number;
+  city: string;
+  cpfId: string;
+  maritalStatus: string;
+  state: string;
+}
+
+interface ICreateRegister {
+  name: string;
+  age: number;
+  city: string;
+  cpfId: string;
+  maritalStatus: string;
+  state: string;
+}
 
 interface NewRegisterModalProps {
   isOpen: boolean;
-  onRequestClose: () => void;
+  handleAddRegister: (register: Omit<NewRegisterProps, 'id'>) => void;
+  setIsOpen: () => void;
 }
-export function NewRegisterModal({
+const NewRegisterModal: React.FC<NewRegisterModalProps> = ({
   isOpen,
-  onRequestClose,
-}: NewRegisterModalProps) {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState(0);
-  const [cpfId, setCpfId] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const id = uuidv4();
+  setIsOpen,
+  handleAddRegister,
+}: NewRegisterModalProps) => {
+  const formRef = useRef<FormHandles>(null);
 
-  async function handleCreateNewRegister(event: FormEvent) {
-    event.preventDefault();
-
-    database.ref('registers').child(id).set({
-      id,
-      name,
-      age,
-      cpfId,
-      maritalStatus,
-      city,
-      state,
-    });
-    setName('');
-    setAge(0);
-    setCpfId('');
-    setMaritalStatus('');
-    setCity('');
-    setState('');
-    onRequestClose();
-  }
+  const handleSubmit = useCallback(
+    async (data: ICreateRegister) => {
+      handleAddRegister(data);
+      setIsOpen();
+    },
+    [handleAddRegister, setIsOpen],
+  );
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      overlayClassName="react-modal-overlay"
-      className="reaact-modal-content"
-    >
-      <button
-        type="button"
-        onClick={onRequestClose}
-        className="react-modal-close"
-      >
+    <AppModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <button type="button" onClick={setIsOpen} className="react-modal-close">
         <FiX />
       </button>
 
-      <Container onSubmit={handleCreateNewRegister}>
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <h2>Cadastrar nova pessoa</h2>
 
-        <input
-          type="text"
-          placeholder="Digite o nome"
-          value={name}
-          onChange={event => setName(event.target.value)}
-        />
-
-        <input
-          type="number"
-          placeholder="Digite a idade"
-          value={age}
-          onChange={event => setAge(Number(event.target.value))}
-        />
-
-        <input
-          type="text"
-          placeholder="Informe o CPF"
-          value={cpfId}
-          onChange={event => setCpfId(event.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Qual o estado civil"
-          value={maritalStatus}
-          onChange={event => setMaritalStatus(event.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Informe a cidade"
-          value={city}
-          onChange={event => setCity(event.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Informe o estado"
-          value={state}
-          onChange={event => setState(event.target.value)}
-        />
+        <Input name="name" placeholder="Digite seu nome" />
+        <Input name="age" placeholder="Digite sua idade" />
+        <Input name="cpfId" placeholder="Digite seu CPF" />
+        <Input name="maritalStatus" placeholder="Digite seu estado civil" />
+        <Input name="city" placeholder="Digite sua cidade" />
+        <Input name="state" placeholder="Digite seu estado" />
 
         <button type="submit">Cadastrar</button>
-      </Container>
-    </Modal>
+      </Form>
+    </AppModal>
   );
-}
+};
+
+export default NewRegisterModal;

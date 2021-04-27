@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 100vw;
-  /* background: var(--background); */
-  background: #cfcfd3;
+  background: var(--background);
 
   table {
     width: 100%;
@@ -19,17 +17,25 @@ export const Container = styled.div`
       line-height: 1rem;
     }
 
-    td {
+    tr {
+      &::first-child {
+
+      }
+      
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      td {
+      background: var(--shape);
       text-align: center;
       padding: 0.5rem 0.5rem;
       border: 0;
-      background: var(--shape);
       color: var(--text-body);
-      border-radius: 0.25rem;
+      border-radius: 0;
+      transition: filter 0.2s;
 
-      &::first-child {
-        color: var(--text-title);
-      }
+
 
       button {
         background: #fff;
@@ -42,6 +48,7 @@ export const Container = styled.div`
           font-size: 1rem;
           color: var(--text-body);
         }
+      }
       }
     }
   }

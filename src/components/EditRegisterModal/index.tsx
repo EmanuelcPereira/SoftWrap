@@ -1,8 +1,10 @@
-import Modal from 'react-modal';
-import { useForm } from 'react-hook-form';
+import React, { useRef, useCallback } from 'react';
+
+import { FormHandles } from '@unform/core';
 import { FiX } from 'react-icons/fi';
-import { Container } from './styles';
-import database from '../../services/firebase';
+import Input from '../Input';
+import { Form } from './styles';
+import AppModal from '../Modal';
 
 interface RegisterProps {
   id: string;
@@ -16,78 +18,56 @@ interface RegisterProps {
 
 interface EditRegisterModalProps {
   isOpen: boolean;
-  onRequestClose: () => void;
-  onSelectedRow: RegisterProps;
+  setIsOpen: () => void;
+  handleUpdateRegister: (register: Omit<RegisterProps, 'id'>) => void;
+  editRegister: RegisterProps;
 }
 
-export function EditRegisterModal({
+interface EditRegister {
+  name: string;
+  age: number;
+  city: string;
+  cpfId: string;
+  maritalStatus: string;
+  state: string;
+}
+
+const EditRegisterModal: React.FC<EditRegisterModalProps> = ({
   isOpen,
-  onRequestClose,
-  onSelectedRow,
-}: EditRegisterModalProps) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data: RegisterProps) => {
-    database.ref('registers').child(onSelectedRow.id).update(data);
-    onRequestClose();
-  };
+  setIsOpen,
+  handleUpdateRegister,
+  editRegister,
+}: EditRegisterModalProps) => {
+  const formRef = useRef<FormHandles>(null);
+
+  const handleSubmit = useCallback(
+    async (data: EditRegister) => {
+      handleUpdateRegister(data);
+      setIsOpen();
+    },
+    [handleUpdateRegister, setIsOpen],
+  );
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      overlayClassName="react-modal-overlay"
-      className="reaact-modal-content"
-    >
-      <button
-        type="button"
-        onClick={onRequestClose}
-        className="react-modal-close"
-      >
+    <AppModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <button type="button" onClick={setIsOpen} className="react-modal-close">
         <FiX />
       </button>
 
-      <Container onSubmit={handleSubmit(onSubmit)}>
+      <Form ref={formRef} onSubmit={handleSubmit} initialData={editRegister}>
         <h2>Editar cadastro</h2>
 
-        <input
-          type="text"
-          defaultValue={onSelectedRow.name}
-          id="name"
-          {...register('name')}
-        />
-        <input
-          type="text"
-          defaultValue={onSelectedRow.age}
-          id="age"
-          {...register('age')}
-        />
-        <input
-          type="text"
-          defaultValue={onSelectedRow.cpfId}
-          id="cpfId"
-          {...register('cpf')}
-        />
-        <input
-          type="text"
-          defaultValue={onSelectedRow.maritalStatus}
-          id="maritalStatus"
-          {...register('maritalStatus')}
-        />
-        <input
-          type="text"
-          defaultValue={onSelectedRow.city}
-          id="city"
-          {...register('city')}
-        />
-        <input
-          type="text"
-          defaultValue={onSelectedRow.state}
-          id="state"
-          {...register('state')}
-        />
+        <Input name="name" placeholder="Digite seu nome" />
+        <Input name="age" placeholder="Digite sua idade" />
+        <Input name="cpfId" placeholder="Digite seu CPF" />
+        <Input name="maritalStatus" placeholder="Digite seu estado civil" />
+        <Input name="city" placeholder="Digite sua cidade" />
+        <Input name="state" placeholder="Digite seu estado" />
 
         <button type="submit">Atualizar</button>
-      </Container>
-    </Modal>
+      </Form>
+    </AppModal>
   );
-}
+};
+
+export default EditRegisterModal;
