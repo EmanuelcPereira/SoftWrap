@@ -27,7 +27,12 @@ export function Dashboard() {
 
   useEffect(() => {
     database.ref('registers').on('value', snapshot => {
-      setRegisterData(Object.values(snapshot.val()));
+      const data = Object.values(snapshot.val());
+      if (data) {
+        setRegisterData(Object.values(snapshot.val()));
+      } else {
+        setRegisterData([]);
+      }
     });
   }, []);
 
