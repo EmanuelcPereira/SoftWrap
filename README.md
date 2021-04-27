@@ -2,6 +2,8 @@
 
 A aplicação consiste em um front end para cadastro de dados de pessoas com possibilidade de inserção, atualização e remoção de dados, além de poder atualizar parte dos dados de cadastro deixando alguns campos em branco.
 
+![Sofwrap](https://user-images.githubusercontent.com/74794011/116307795-2648fc00-a77d-11eb-8adf-31fb7d442df2.png)
+
 ### Tecnologias
 A aplicação foi desenvolvida utilizando:
 * React
@@ -11,7 +13,17 @@ A aplicação foi desenvolvida utilizando:
 
 ## Setup
 
-Digite `yarn init` para instalar os pacotes de dependências necessários para executar a aplicação. Após instalado todas as dependências, digite `yarn start` para executar o front-end da aplicação. Abra [http://localhost:3000/](http://localhost:30000) para visualiza a página no navegador. Como essa é uma aplicação teste, não foi implementado modulo de login do firebase, com isso ao executar a aplicação, o front end se conectará automaticamente com a banco de dados do firebase.
+```sh
+yarn init
+```
+
+Execute o comando acima para instalar os pacotes de dependências necessários para executar a aplicação. Após instalado todas as dependências, digite o comando abaixo para executar o front-end da aplicação.
+
+```sh
+yarn start
+```
+
+Abra [http://localhost:3000/](http://localhost:30000) para visualiza a página no navegador. Como essa é uma aplicação teste, não foi implementado modulo de login do firebase, com isso ao executar a aplicação, o front end se conectará automaticamente com a banco de dados do firebase.
 
 
 ### Autor
